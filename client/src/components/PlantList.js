@@ -3,10 +3,27 @@ import axios from "axios";
 
 export default class PlantList extends Component {
   // add state with a property called "plants" - initialize as an empty array
+  state = {
+    plants: []
+  };
+
 
   // when the component mounts:
   //   - fetch data from the server endpoint - http://localhost:3333/plants
   //   - set the returned plants array to this.state.plants
+  componentDidMount() {
+    fetch("http://localhost:3333/plants)"
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(json);
+      console.log("ko: PlantList: CDM: fetch results: ", json);
+      if (json.status != "error") {
+        this.setState({ plants: json.message });
+      }
+    })
+    .catch((err) => console.error("failure to fetch plants: ". err.message))
+
+  }
 
   /*********  DON'T CHANGE ANYTHING IN THE RENDER FUNCTION *********/
   render() {
