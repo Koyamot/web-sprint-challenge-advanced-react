@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import useForm from "../hooks/useForm"
 
 const initialValue = {
   firstName: "",
@@ -14,17 +15,9 @@ const initialValue = {
 // and replace the necessary stateful logic from CheckoutForm with the hook
 
 const CheckoutForm = (props) => {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [values, setValues] = useState(initialValue);
 
-  const handleChanges = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  const [showSuccessMessage, values, handleChanges, handleSubmit] = useForm(initialValue);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setShowSuccessMessage(true);
-  };
 
   return (
     <>
@@ -33,6 +26,7 @@ const CheckoutForm = (props) => {
         <label>
           First Name:
           <input
+            data-testid="first-name"
             name="firstName"
             value={values.firstName}
             onChange={handleChanges}
@@ -41,6 +35,7 @@ const CheckoutForm = (props) => {
         <label>
           Last Name:
           <input
+            data-testid="last-name"
             name="lastName"
             value={values.lastName}
             onChange={handleChanges}
@@ -49,6 +44,7 @@ const CheckoutForm = (props) => {
         <label>
           Address:
           <input
+            data-testid="address"
             name="address"
             value={values.address}
             onChange={handleChanges}
@@ -66,7 +62,7 @@ const CheckoutForm = (props) => {
           Zip:
           <input name="zip" value={values.zip} onChange={handleChanges} />
         </label>
-        <button>Checkout</button>
+        <button data-testid="button-id">Checkout</button>
       </form>
 
       {showSuccessMessage && (
